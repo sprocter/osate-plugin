@@ -4,17 +4,6 @@ Bundle-Name: Sireum plug-in for CLI Air generation from OSATE
 Bundle-SymbolicName: org.sireum.aadl.osate.cli;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.sireum.aadl.osate.cli.Activator
-Require-Bundle: org.osate.aadl2,
- org.osate.aadl2.instantiation,
- org.sireum.aadl.osate,
- org.osate.xtext.aadl2.errormodel,
- org.osate.alisa.workbench,
- org.osate.categories,
- org.osate.testsupport;visibility:=reexport,
- org.osate.xtext.aadl2.ui,
- org.osate.pluginsupport,
- org.osate.assure.tests
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Automatic-Module-Name: org.sireum.aadl.osate.cli
 Bundle-ActivationPolicy: lazy
 Export-Package: org.sireum.aadl.osate.cli;
@@ -25,3 +14,10 @@ Export-Package: org.sireum.aadl.osate.cli;
    org.eclipse.emf.ecore.resource"
 Bundle-ClassPath: .,
  lib/
+Require-Bundle: org.osate.aadl2;bundle-version="1.0.0",
+ org.osate.xtext.aadl2;bundle-version="1.0.0",
+ org.osate.aadl2.instantiation;bundle-version="1.0.0",
+ org.osate.pluginsupport;bundle-version="1.0.0",
+ org.osate.xtext.aadl2.properties.ui;bundle-version="1.0.0",
+ org.osate.utils;bundle-version="1.0.0",
+ org.sireum.aadl.osate;bundle-version="1.0.0"

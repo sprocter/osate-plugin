@@ -26,10 +26,9 @@ import org.osate.aadl2.Classifier;
 import org.osate.aadl2.SystemImplementation;
 import org.osate.aadl2.instance.SystemInstance;
 import org.osate.aadl2.instantiation.InstantiateModel;
-import org.osate.assure.tests.FullAlisaInjectorProvider;
 import org.osate.core.OsateCorePlugin;
 import org.osate.pluginsupport.PluginSupportUtil;
-import org.osate.testsupport.Aadl2InjectorProvider;
+import org.osate.xtext.aadl2.Aadl2StandaloneSetup;
 import org.osate.xtext.aadl2.properties.ui.internal.PropertiesActivator;
 import org.sireum.aadl.osate.util.Util;
 import org.sireum.aadl.osate.util.Util.SerializerType;
@@ -37,15 +36,16 @@ import org.sireum.aadl.osate.util.Util.SerializerType;
 import com.google.inject.Injector;
 
 @SuppressWarnings("restriction")
-public class GenerateAir implements IApplication {
+public class GenerateAir extends Aadl2StandaloneSetup implements IApplication {
 
 	@Override
 	public Object start(IApplicationContext context) throws Exception {
 		context.applicationRunning();
 
 		OsateCorePlugin.getDefault().start(Activator.getContext());
-		Aadl2InjectorProvider aip = new FullAlisaInjectorProvider();
-		Injector injector = aip.getInjector();
+		// Aadl2InjectorProvider aip = new FullAlisaInjectorProvider();
+		// Injector injector = aip.getInjector();
+		Injector injector = this.createInjectorAndDoEMFRegistration();
 
 		PropertiesActivator.getInstance();
 
@@ -70,7 +70,9 @@ public class GenerateAir implements IApplication {
 			File r = new File(appArgs[0]);
 			ArrayList<String> l = new ArrayList<>();
 			for (File f : r.listFiles()) {
-				l.add(readFile(f));
+				if (f.isFile()) {
+					l.add(readFile(f));
+				}
 			}
 
 			Resource resource = loadFiles(appArgs[0], appArgs[1], resourceSet);
@@ -135,7 +137,9 @@ public class GenerateAir implements IApplication {
 	private Resource loadFile(String filePath, ResourceSet rs) {
 		try {
 			// This way of constructing the URL works in JUnit plug-in and standalone tests
+			System.out.println(filePath);
 			URL url = new URL("file:" + filePath);
+			System.out.println(url);
 			InputStream stream = url.openConnection().getInputStream();
 			Resource res = rs.createResource(URI.createURI(filePath));
 			if (res != null) {
@@ -144,6 +148,7 @@ public class GenerateAir implements IApplication {
 			return res;
 		} catch (IOException e) {
 			System.out.println("Unable to load file: " + filePath);
+			e.printStackTrace();
 			return null;
 		}
 	}

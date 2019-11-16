@@ -6,7 +6,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -20,7 +19,6 @@ import org.osate.annexsupport.AnnexRegistry;
 import org.osate.annexsupport.AnnexTextPositionResolverRegistry;
 import org.osate.xtext.aadl2.errormodel.errorModel.ErrorModelLibrary;
 import org.osate.xtext.aadl2.errormodel.errorModel.ErrorModelSubclause;
-import org.sireum.aadl.osate.util.Util;
 import org.sireum.message.Position;
 
 public class VisitorUtil {
@@ -71,10 +69,18 @@ public class VisitorUtil {
 	}
 
 	private static String getResourcePath(NamedElement component) {
+		System.out.println(component);
 		Resource res = component.eResource();
 		URI uri = res.getURI();
-		IPath path = Util.toIFile(uri).getFullPath();
-		return path.toPortableString();
+		System.out.println(uri);
+		return uri.toString();
+		/*
+		 * if(uri == null) {
+		 * return "WHAT IS THIS " + component.getFullName();
+		 * }
+		 * IPath path = Util.toIFile(uri).getFullPath();
+		 * return path.toPortableString();
+		 */
 	}
 
 	public static Position buildPosInfo(NamedElement elem) {
